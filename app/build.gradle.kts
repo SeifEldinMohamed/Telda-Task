@@ -1,7 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -37,6 +38,9 @@ android {
     buildFeatures {
         compose = true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
+    }
 }
 
 dependencies {
@@ -56,4 +60,50 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // lottie compose
+    implementation(libs.lottie.compose)
+    // coil compose
+    implementation(libs.coil.compose)
+    // navigation  compose
+    implementation(libs.androidx.navigation.compose)
+
+    // mockk
+    testImplementation(libs.mockk)
+    // turbine
+    testImplementation(libs.turbine)
+
+    // lifecycle
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.lifecycle.viewmodel.ktx)
+
+    // hilt
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    // coroutines
+    implementation(libs.coroutines)
+    testImplementation(libs.coroutines.test)
+
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.okhttp3)
+    implementation(libs.gson.converter)
+
+    // gson
+    implementation(libs.gson)
+
+    // chucker
+    debugImplementation(libs.chucker)
+
+    // paging
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
+
+    // room
+    implementation(libs.room)
+    ksp(libs.room.compiler)
+
 }

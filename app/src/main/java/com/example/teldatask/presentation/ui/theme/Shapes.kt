@@ -1,4 +1,4 @@
-package com.example.teldatask.ui.theme
+package com.example.teldatask.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes

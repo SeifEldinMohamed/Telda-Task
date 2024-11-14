@@ -1,4 +1,4 @@
-package com.example.teldatask.ui.theme
+package com.example.teldatask.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

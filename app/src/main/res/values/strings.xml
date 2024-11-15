@@ -4,7 +4,7 @@
     // movies home screen
     <string name="no_results_found">No results found</string>
     <string name="favorite_content_description">Favorite Icon</string>
-    <string name="release_date">Release Date: %1$s</string>
+    <string name="release_date_s">Release Date: %1$s</string>
     <string name="rating">Rating: %1$s</string>
 
     // error Section
@@ -23,5 +23,16 @@
     <string name="database_exception_message">Can\'t save your movie!</string>
     <string name="back_arrow">back arrow</string>
     <string name="search_for_a_movie_hint">Search for a movie...</string>
+
+    // details
+    <string name="unlike">Unlike</string>
+    <string name="like">Like</string>
+    <string name="colon">": "</string>
+    <string name="release_date">Release date</string>
+    <string name="revenue">Revenue</string>
+    <string name="status">Status</string>
+    <string name="movie_added_to_favorites">Movie added to favorites!</string>
+    <string name="movie_removed_from_favorites">Movie removed from favorites!</string>
+    <string name="failed_to_load_more_movies">Failed to load more movies</string>
 
 </resources>

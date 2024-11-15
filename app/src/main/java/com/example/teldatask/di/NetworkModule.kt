@@ -3,6 +3,7 @@ package com.example.teldatask.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.teldatask.data.Constants.Companion.BASE_URL
+import com.example.teldatask.data.data_sources.remote.retrofit.api.MovieDetailsApi
 import com.example.teldatask.data.data_sources.remote.retrofit.api.MoviesApi
 import com.example.teldatask.data.data_sources.remote.retrofit.interceptor.ApiKeyInterceptor
 import dagger.Module
@@ -40,6 +41,12 @@ object NetworkModule {
     @Provides
     fun provideMoviesApiService(retrofit: Retrofit): MoviesApi {
         return retrofit.create(MoviesApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMovieDetailsApiService(retrofit: Retrofit): MovieDetailsApi {
+        return retrofit.create(MovieDetailsApi::class.java)
     }
 
 }

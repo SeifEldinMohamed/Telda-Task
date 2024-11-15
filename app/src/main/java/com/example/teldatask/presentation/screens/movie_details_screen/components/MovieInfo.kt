@@ -62,6 +62,7 @@ fun MovieInfo(
                 }
                 append(stringResource(R.string.colon))
                 append(revenue)
+                append(stringResource(R.string.usd_currency))
             },
             style = MaterialTheme.typography.bodyMedium,
         )

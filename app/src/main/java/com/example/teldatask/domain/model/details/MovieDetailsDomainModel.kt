@@ -1,4 +1,4 @@
-package com.example.teldatask.domain.model
+package com.example.teldatask.domain.model.details
 
 import com.example.teldatask.data.data_sources.remote.retrofit.datamodel.movie_details.Genre
 

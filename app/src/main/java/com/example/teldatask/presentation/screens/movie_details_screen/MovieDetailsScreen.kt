@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.teldatask.R
 import com.example.teldatask.presentation.common_components.ErrorSection
+import com.example.teldatask.presentation.screens.movie_details_screen.components.CastItem
 import com.example.teldatask.presentation.screens.movie_details_screen.components.Categories
 import com.example.teldatask.presentation.screens.movie_details_screen.components.MovieDetailsAppBar
 import com.example.teldatask.presentation.screens.movie_details_screen.components.MovieImageBanner
@@ -38,12 +39,16 @@ import com.example.teldatask.presentation.screens.movie_details_screen.component
 import com.example.teldatask.presentation.screens.movie_details_screen.components.shimmer_loading.AnimateShimmerDetails
 import com.example.teldatask.presentation.screens.movie_details_screen.components.shimmer_loading.AnimateShimmerSimilarMovies
 import com.example.teldatask.presentation.screens.movie_details_screen.model.MovieDetailsUiModel
+import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeCreditsUiState
+import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeCreditsUiStateError
+import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeCreditsUiStateLoading
 import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeMovieDetailsFirstSectionUiState
 import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeMovieDetailsFirstSectionUiStateError
 import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeMovieDetailsFirstSectionUiStateLoading
 import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeSimilarMoviesUiState
 import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeSimilarMoviesUiStateError
 import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeSimilarMoviesUiStateLoading
+import com.example.teldatask.presentation.screens.movie_details_screen.ui_state.CreditsUiState
 import com.example.teldatask.presentation.screens.movie_details_screen.ui_state.MovieDetailsFirstSectionUiState
 import com.example.teldatask.presentation.screens.movie_details_screen.ui_state.SimilarMoviesUiState
 import com.example.teldatask.presentation.screens.movie_details_screen.viewmodel.MovieDetailsViewModel
@@ -62,10 +67,12 @@ fun MovieDetailsScreen(
     }
     val movieDetailsFirstSectionUiState by movieDetailsViewModel.movieDetailsFirstSectionUiState.collectAsStateWithLifecycle()
     val similarMoviesUiState by movieDetailsViewModel.similarMoviesUiState.collectAsStateWithLifecycle()
+    val creditsUiState by movieDetailsViewModel.creditsUiState.collectAsStateWithLifecycle()
 
     MovieDetailsContent(
         movieDetailsUiState = movieDetailsFirstSectionUiState,
         similarMoviesUiState = similarMoviesUiState,
+        creditsUiState = creditsUiState,
         onRefreshClicked = {
             movieDetailsViewModel.requestMovieDetailsFirstSection(movieId)
         },
@@ -73,6 +80,9 @@ fun MovieDetailsScreen(
         makeFavoriteMovie = false,
         onFavouriteButtonClicked = { makeFavourite, movieDetailsUiModel ->
 
+        },
+        onRequestTopCredits = {
+            movieDetailsViewModel.requestTopCastForMovies(movieIds = it)
         }
     )
 }
@@ -81,10 +91,12 @@ fun MovieDetailsScreen(
 fun MovieDetailsContent(
     movieDetailsUiState: MovieDetailsFirstSectionUiState,
     similarMoviesUiState: SimilarMoviesUiState,
+    creditsUiState: CreditsUiState,
     onBackArrowPressed: () -> Unit,
     onFavouriteButtonClicked: (isFavourite: Boolean, movieDetailsUiModel: MovieDetailsUiModel) -> Unit,
     onRefreshClicked: () -> Unit,
-    makeFavoriteMovie: Boolean
+    makeFavoriteMovie: Boolean,
+    onRequestTopCredits: (ids: List<Int>) -> Unit
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -177,20 +189,20 @@ fun MovieDetailsContent(
 
         }
         Spacer(Modifier.height(24.dp))
-        SimilarMoviesSection(similarMoviesUiState)
-
+        SimilarMoviesSection(similarMoviesUiState, onRequestTopCredits = onRequestTopCredits)
+        CreditsSection(creditsUiState)
     }
 }
 
 @Composable
 fun ColumnScope.SimilarMoviesSection(
-    similarMoviesUiState: SimilarMoviesUiState
+    similarMoviesUiState: SimilarMoviesUiState,
+    onRequestTopCredits:(ids: List<Int>) -> Unit
 ) {
     Text(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth(0.83f),
-        text = "Similar Movies",
+            .padding(horizontal = 16.dp),
+        text = stringResource(R.string.similar_movies),
         style = MaterialTheme.typography.titleMedium,
     )
     when (similarMoviesUiState) {
@@ -206,13 +218,16 @@ fun ColumnScope.SimilarMoviesSection(
             ) ?: stringResource(id = R.string.unknown_exception_message)
 
             Text(
-                modifier = Modifier.padding(horizontal = 16.dp)
-                    .padding(top = 16.dp).align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp)
+                    .align(Alignment.CenterHorizontally),
                 text = errorMessage
             )
         }
 
         is SimilarMoviesUiState.SimilarMoviesList -> {
+            onRequestTopCredits(similarMoviesUiState.similarMovies.map { it.id })
             LazyRow(
                 Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -226,9 +241,92 @@ fun ColumnScope.SimilarMoviesSection(
                 }
             }
         }
-
     }
+}
 
+@Composable
+fun ColumnScope.CreditsSection(creditsUiState: CreditsUiState) {
+    when(creditsUiState){
+        is CreditsUiState.Loading -> {
+            if (creditsUiState.isLoading)
+                AnimateShimmerSimilarMovies()
+        }
+        is CreditsUiState.Error -> {
+            val errorMessage = getErrorMessage(
+                apiError = creditsUiState.customApiErrorExceptionUiModel,
+                databaseError = creditsUiState.customDatabaseExceptionUiModel
+            ) ?: stringResource(id = R.string.unknown_exception_message)
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp).padding(top = 16.dp),
+                text = stringResource(R.string.similar_movies_actors),
+                style = MaterialTheme.typography.titleMedium,
+            )
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp)
+                    .align(Alignment.CenterHorizontally),
+                text = errorMessage
+            )
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp).padding(top = 16.dp),
+                text = stringResource(R.string.similar_movies_directors),
+                style = MaterialTheme.typography.titleMedium,
+            )
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp)
+                    .align(Alignment.CenterHorizontally),
+                text = errorMessage
+            )
+        }
+        is CreditsUiState.Credits -> {
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
+                text = stringResource(R.string.similar_movies_actors),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            LazyRow(
+                Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .fillMaxWidth()
+            ) {
+                items(creditsUiState.creditsUiModel.actors) { actor ->
+                    CastItem(
+                        profilePath = actor.profilePath,
+                        name = actor.name
+                    )
+                }
+            }
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
+                text = stringResource(R.string.similar_movies_directors),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            LazyRow(
+                Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .fillMaxWidth()
+            ) {
+                items(creditsUiState.creditsUiModel.directors) { director ->
+                    CastItem(
+                        profilePath = director.profilePath,
+                        name = director.name
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Preview
@@ -238,10 +336,12 @@ fun FilmDetailsScreenPreview() {
         MovieDetailsContent(
             movieDetailsUiState = fakeMovieDetailsFirstSectionUiState,
             similarMoviesUiState = fakeSimilarMoviesUiState,
+            creditsUiState = fakeCreditsUiState,
             onBackArrowPressed = {},
             onFavouriteButtonClicked = { _, _ -> },
             {},
-            makeFavoriteMovie = false
+            makeFavoriteMovie = false,
+            onRequestTopCredits = {}
         )
     }
 }
@@ -253,10 +353,12 @@ fun FilmDetailsScreenLoadingPreview() {
         MovieDetailsContent(
             movieDetailsUiState = fakeMovieDetailsFirstSectionUiStateLoading,
             similarMoviesUiState = fakeSimilarMoviesUiStateLoading,
+            creditsUiState = fakeCreditsUiStateLoading,
             onBackArrowPressed = {},
             onFavouriteButtonClicked = { _, _ -> },
             {},
-            makeFavoriteMovie = false
+            makeFavoriteMovie = false,
+            onRequestTopCredits = {}
         )
     }
 }
@@ -268,10 +370,12 @@ fun FilmDetailsScreenErrorPreview() {
         MovieDetailsContent(
             movieDetailsUiState = fakeMovieDetailsFirstSectionUiStateError,
             similarMoviesUiState = fakeSimilarMoviesUiStateError,
+            creditsUiState = fakeCreditsUiStateError,
             onBackArrowPressed = {},
             onFavouriteButtonClicked = { _, _ -> },
             {},
-            makeFavoriteMovie = false
+            makeFavoriteMovie = false,
+            onRequestTopCredits = {}
         )
     }
 }

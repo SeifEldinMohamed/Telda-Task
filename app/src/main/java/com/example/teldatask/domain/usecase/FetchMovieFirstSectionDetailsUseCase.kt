@@ -1,6 +1,6 @@
 package com.example.teldatask.domain.usecase
 
-import com.example.teldatask.domain.model.MovieDetailsDomainModel
+import com.example.teldatask.domain.model.details.MovieDetailsDomainModel
 import com.example.teldatask.domain.repository.MovieDetailsRepository
 import javax.inject.Inject
 

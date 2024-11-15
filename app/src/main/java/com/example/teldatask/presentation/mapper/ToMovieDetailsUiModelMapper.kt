@@ -1,6 +1,6 @@
 package com.example.teldatask.presentation.mapper
 
-import com.example.teldatask.domain.model.MovieDetailsDomainModel
+import com.example.teldatask.domain.model.details.MovieDetailsDomainModel
 import com.example.teldatask.presentation.screens.movie_details_screen.model.MovieDetailsUiModel
 
 fun MovieDetailsDomainModel.toMovieDetailsUIModel(): MovieDetailsUiModel {

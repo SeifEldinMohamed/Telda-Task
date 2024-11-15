@@ -74,8 +74,7 @@ fun ShimmerIssueItem(brush: Brush) {
                Spacer(
                    modifier = Modifier
                        .fillMaxWidth()
-                       .height(400.dp)
-                       .padding(top = 16.dp)
+                       .height(350.dp)
                        .background(brush)
                )
 

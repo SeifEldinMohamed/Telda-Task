@@ -13,6 +13,7 @@ class Constants {
         const val MOVIE_DETAILS_ENDPOINT = "movie/{$MOVIE_ID_KEY}"
         const val SEARCH_MOVIES_ENDPOINT = "search/movie"
         const val SIMILAR_MOVIES_ENDPOINT = "movie/{$MOVIE_ID_KEY}/similar"
+        const val MOVIE_CREDITS_ENDPOINT = "movie/{$MOVIE_ID_KEY}/credits"
         const val LANGUAGE_KEY = "language"
         const val QUERY_KEY = "query"
     }

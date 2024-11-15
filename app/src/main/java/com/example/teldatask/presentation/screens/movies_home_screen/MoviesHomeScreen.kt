@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.teldatask.R
 import com.example.teldatask.presentation.common_components.CenterAlignedAppBar
 import com.example.teldatask.presentation.common_components.EmptySection
@@ -27,12 +29,12 @@ import com.example.teldatask.presentation.ui.theme.TeldaTaskTheme
 fun MoviesHomeScreen(
     onMovieClick: (id: Int) -> Unit,
 ) {
-
+    val moviesHomeViewModel: MoviesHomeViewModel = hiltViewModel()
+    val moviesHomeUiState = moviesHomeViewModel.moviesHomeUiState.collectAsStateWithLifecycle()
     MoviesHomeContent(
-        moviesHomeUiState = fakeMoviesHomeUiState,
+        moviesHomeUiState = moviesHomeUiState.value,
         onMovieClick = onMovieClick,
         onRefreshButtonClicked = {
-
         }
     )
 }

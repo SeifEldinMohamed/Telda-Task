@@ -2,7 +2,7 @@
     <string name="app_name">Movies App</string>
 
     // movies home screen
-    <string name="no_results_found">NO results found</string>
+    <string name="no_results_found">No results found</string>
     <string name="favorite_content_description">Favorite Icon</string>
     <string name="release_date">Release Date: %1$s</string>
     <string name="rating">Rating: %1$s</string>
@@ -22,5 +22,6 @@
     <string name="unknown_exception_message">We are working on this issue</string>
     <string name="database_exception_message">Can\'t save your movie!</string>
     <string name="back_arrow">back arrow</string>
+    <string name="search_for_a_movie_hint">Search for a movie...</string>
 
 </resources>

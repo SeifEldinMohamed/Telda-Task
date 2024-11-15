@@ -3,7 +3,7 @@ package com.example.teldatask.presentation.mapper
 import com.example.teldatask.domain.model.MovieDomainModel
 import com.example.teldatask.presentation.screens.movies_home_screen.model.MovieUiModel
 
-fun MovieDomainModel.toPopularMovieUIModel(): MovieUiModel {
+fun MovieDomainModel.toMovieUIModel(): MovieUiModel {
     return MovieUiModel(
         id = this.id,
         title = this.title,

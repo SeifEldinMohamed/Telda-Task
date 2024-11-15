@@ -32,7 +32,7 @@ fun EmptySection() {
         Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
@@ -40,7 +40,7 @@ fun EmptySection() {
         LottieAnimation(
             composition = composition,
             iterations = LottieConstants.IterateForever,
-            modifier = Modifier.fillMaxWidth().height(300.dp)
+            modifier = Modifier.fillMaxWidth().padding(top = 100.dp).height(250.dp)
         )
 
         Text(
@@ -48,8 +48,6 @@ fun EmptySection() {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier
-                .padding(top = 8.dp)
         )
     }
 }

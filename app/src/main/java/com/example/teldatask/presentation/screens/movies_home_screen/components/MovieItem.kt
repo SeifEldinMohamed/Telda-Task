@@ -105,7 +105,7 @@ fun MovieItem(
 
                 Text(
                     modifier = Modifier.padding(vertical = 8.dp),
-                    text = stringResource(R.string.release_date, movieUiModel.releaseDate),
+                    text = stringResource(R.string.release_date_s, movieUiModel.releaseDate),
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis

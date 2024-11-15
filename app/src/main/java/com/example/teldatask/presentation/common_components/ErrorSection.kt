@@ -33,6 +33,7 @@ import com.example.teldatask.presentation.model.CustomDatabaseExceptionUiModel
 import com.example.teldatask.R
 import com.example.teldatask.presentation.ui.theme.LightGray
 import com.example.teldatask.presentation.ui.theme.LightGreen
+import com.example.teldatask.presentation.utils.getErrorMessage
 
 @Composable
 fun ErrorSection(
@@ -41,22 +42,10 @@ fun ErrorSection(
     customDatabaseExceptionUiModel: CustomDatabaseExceptionUiModel? = null
 ) {
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.error_animation))
-    var errorMessage =  customApiErrorExceptionUiModel?.let {
-        when (it) {
-            is CustomApiExceptionUiModel.Timeout -> stringResource(R.string.timeout_exception_message)
-            is CustomApiExceptionUiModel.NoInternetConnection -> stringResource(R.string.no_internet_connection_exception_message)
-            is CustomApiExceptionUiModel.Network -> stringResource(R.string.network_exception_message)
-            is CustomApiExceptionUiModel.ServiceUnreachable -> stringResource(R.string.service_unreachable_exception_message)
-            is CustomApiExceptionUiModel.Unknown -> stringResource(R.string.unknown_exception_message)
-        }
-    }
-    customDatabaseExceptionUiModel?.let {
-        errorMessage = when(it) {
-            is CustomDatabaseExceptionUiModel.DatabaseError -> stringResource(id = R.string.database_exception_message)
-            is CustomDatabaseExceptionUiModel.Unknown -> stringResource(R.string.unknown_exception_message)
-        }
-    }
-
+    val errorMessage =  getErrorMessage(
+        apiError = customApiErrorExceptionUiModel,
+        databaseError = customDatabaseExceptionUiModel
+    )
     Column(
         Modifier
             .fillMaxSize()

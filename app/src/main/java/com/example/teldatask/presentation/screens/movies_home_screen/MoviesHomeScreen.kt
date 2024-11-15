@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +21,7 @@ import com.example.teldatask.presentation.common_components.CenterAlignedAppBar
 import com.example.teldatask.presentation.common_components.EmptySection
 import com.example.teldatask.presentation.common_components.ErrorSection
 import com.example.teldatask.presentation.screens.movies_home_screen.components.MovieItem
+import com.example.teldatask.presentation.screens.movies_home_screen.components.SearchBar
 import com.example.teldatask.presentation.screens.movies_home_screen.components.shimmer_loading.AnimateShimmerMoviesList
 import com.example.teldatask.presentation.screens.movies_home_screen.preview_data.fakeMoviesHomeUiState
 import com.example.teldatask.presentation.ui.theme.TeldaTaskTheme
@@ -30,19 +32,25 @@ fun MoviesHomeScreen(
     onMovieClick: (id: Int) -> Unit,
 ) {
     val moviesHomeViewModel: MoviesHomeViewModel = hiltViewModel()
-    val moviesHomeUiState = moviesHomeViewModel.moviesHomeUiState.collectAsStateWithLifecycle()
+    val moviesHomeUiState by moviesHomeViewModel.moviesHomeUiState.collectAsStateWithLifecycle()
+    val searchQuery by moviesHomeViewModel.searchQuery.collectAsStateWithLifecycle()
     MoviesHomeContent(
-        moviesHomeUiState = moviesHomeUiState.value,
+        moviesHomeUiState = moviesHomeUiState,
         onMovieClick = onMovieClick,
-        onRefreshButtonClicked = {
-        }
+        searchQuery = searchQuery,
+        onQueryChanged = { query ->
+            moviesHomeViewModel.onSearchQueryChanged(query)
+        },
+        onRefreshButtonClicked = {}
     )
 }
 
 @Composable
 fun MoviesHomeContent(
     moviesHomeUiState: MoviesHomeUiState,
+    searchQuery: String,
     onMovieClick: (id: Int) -> Unit,
+    onQueryChanged: (String) -> Unit,
     onRefreshButtonClicked: () -> Unit
 ) {
     Column(
@@ -55,10 +63,16 @@ fun MoviesHomeContent(
             showBackButton = false
         )
 
-        when(moviesHomeUiState) {
+        SearchBar(
+            query = searchQuery,
+            onQueryChanged = onQueryChanged
+        )
+
+        when (moviesHomeUiState) {
             is MoviesHomeUiState.EmptyState -> {
                 EmptySection()
             }
+
             is MoviesHomeUiState.Loading -> {
                 if (moviesHomeUiState.isLoading) {
                     Spacer(modifier = Modifier.height(8.dp))
@@ -72,12 +86,14 @@ fun MoviesHomeContent(
                     customApiErrorExceptionUiModel = moviesHomeUiState.customApiErrorExceptionUiModel
                 )
             }
+
             is MoviesHomeUiState.DatabaseError -> {
                 ErrorSection(
                     onRefreshButtonClicked = onRefreshButtonClicked,
                     customDatabaseExceptionUiModel = moviesHomeUiState.customDatabaseExceptionUiModel
                 )
             }
+
             is MoviesHomeUiState.SearchedMoviesList -> {
                 LazyColumn(
                     Modifier.padding(vertical = 8.dp)
@@ -107,13 +123,15 @@ fun MoviesHomeContent(
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFEBEBEB)
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
-private fun PreviewPopularMoviesContent() {
+private fun PreviewMoviesHomeContent() {
     TeldaTaskTheme {
         MoviesHomeContent(
             moviesHomeUiState = fakeMoviesHomeUiState,
             onMovieClick = {},
+            searchQuery = "",
+            onQueryChanged = {},
             onRefreshButtonClicked = {}
         )
     }

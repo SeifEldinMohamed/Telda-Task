@@ -38,5 +38,14 @@ class MoviesRemoteDataSource @Inject constructor(
             throw e.toCustomApiExceptionDomainModel()
         }
     }
+
+    suspend fun fetchSimilarMovies(movieId: Int): List<MovieDataModel> {
+        return try {
+            val similarMoviesResponse = movieDetailsApi.fetchSimilarMovies(movieId = movieId).body() as MoviesResponse
+            similarMoviesResponse.movieListDataModel
+        } catch (e:Exception) {
+            throw e.toCustomApiExceptionDomainModel()
+        }
+    }
 }
 

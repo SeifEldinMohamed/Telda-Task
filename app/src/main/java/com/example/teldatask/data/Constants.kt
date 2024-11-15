@@ -8,6 +8,8 @@ class Constants {
         const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/"
 
         const val POPULAR_MOVIES_ENDPOINT = "movie/popular"
+        const val SEARCH_MOVIES_ENDPOINT = "search/movie"
         const val LANGUAGE_KEY = "language"
+        const val QUERY_KEY = "query"
     }
 }

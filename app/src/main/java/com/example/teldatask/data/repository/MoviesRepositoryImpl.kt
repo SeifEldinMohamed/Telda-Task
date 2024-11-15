@@ -16,4 +16,11 @@ class MoviesRepositoryImpl @Inject constructor(
             throw e
         }
     }
+    override suspend fun searchMovies(query:String): List<MovieDomainModel> {
+       return try {
+            moviesRemoteDataSource.searchMovies(query = query).map { it.toMovieDomainModel() }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
 }

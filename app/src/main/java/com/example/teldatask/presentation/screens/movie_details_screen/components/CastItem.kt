@@ -1,7 +1,6 @@
 package com.example.teldatask.presentation.screens.movie_details_screen.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,14 +24,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.teldatask.R
-import com.example.teldatask.presentation.screens.movies_home_screen.model.MovieUiModel
-import com.example.teldatask.presentation.screens.movies_home_screen.preview_data.fakeMovieUiModel
+import com.example.teldatask.presentation.screens.movie_details_screen.preview_data.fakeCreditsUiModel
 import com.example.teldatask.presentation.ui.theme.TeldaTaskTheme
 
 @Composable
-fun SimilarMovieItem(
-    movieUiModel: MovieUiModel,
-    onMovieClick: (id: Int) -> Unit,
+fun CastItem(
+    profilePath: String,
+    name:String
 ) {
     val context = LocalContext.current
     val movieImagePosterFadeDuration = 1000
@@ -42,7 +39,7 @@ fun SimilarMovieItem(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 8.dp)
             .width(170.dp)
-            .clickable { onMovieClick(movieUiModel.id) },
+          ,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
@@ -56,8 +53,9 @@ fun SimilarMovieItem(
             Image(
                 painter = rememberAsyncImagePainter(
                     ImageRequest.Builder(context)
-                        .data(movieUiModel.posterPath)
-                        .placeholder(R.drawable.ic_placeholder)
+                        .data(profilePath)
+                        .placeholder(R.drawable.ic_person_placeholder)
+                        .error(R.drawable.ic_person_placeholder)
                         .crossfade(movieImagePosterFadeDuration)
                         .build(),
                 ),
@@ -70,23 +68,12 @@ fun SimilarMovieItem(
             )
 
             Text(
-                text = movieUiModel.title,
+                text = name,
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .padding(top = 6.dp)
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-
-            Text(
-                text = stringResource(R.string.release_date_s, movieUiModel.releaseDate),
-                style = MaterialTheme.typography.bodySmall,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .padding(top = 8.dp)
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
@@ -98,9 +85,9 @@ fun SimilarMovieItem(
 @Composable
 private fun PreviewPopularMovieItem() {
     TeldaTaskTheme {
-        SimilarMovieItem (
-            movieUiModel = fakeMovieUiModel,
-            onMovieClick = {}
+        CastItem (
+            profilePath = fakeCreditsUiModel.actors.first().profilePath,
+            name = fakeCreditsUiModel.actors.first().name,
         )
     }
 }

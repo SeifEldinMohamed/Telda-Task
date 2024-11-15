@@ -34,5 +34,9 @@
     <string name="movie_added_to_favorites">Movie added to favorites!</string>
     <string name="movie_removed_from_favorites">Movie removed from favorites!</string>
     <string name="failed_to_load_more_movies">Failed to load more movies</string>
+    <string name="similar_movies">Similar Movies</string>
+    <string name="similar_movies_actors">Similar movies actors</string>
+    <string name="similar_movies_directors">Similar movies directors</string>
+    <string name="usd_currency">" $"</string>
 
 </resources>

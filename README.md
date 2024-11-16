@@ -9,7 +9,7 @@ Welcome to the Movie Explorer App! This is a simple yet engaging movie discovery
 **Movie List:** Displays search results or popular movies grouped by release year, showing the movie title, overview, poster, and favorite status.
 
 **Movie Details:** Provides detailed information about a selected movie, including:
-Movie title, overview, tagline, revenue, release date, status, and an option to add/remove from the favourite.
+Movie title, overview, tagline, revenue, release date, status, and an option to add/remove from the favorite.
 
 **Similar Movies:** Shows up to 5 similar movies to the selected movie.
 
@@ -41,11 +41,15 @@ The app is built using modern Android development tools and practices, following
 To secure the API key in this project, we used the BuildConfigField approach, which injects the API key during the build process. The key is stored securely in the local.properties file, which is not tracked by version control, and is injected into the app at build time. This avoids hardcoding the key directly into the source code, making it more secure.
 
 Additional Security Options:
-Encrypted SharedPreferences: Securely stores sensitive data, such as API keys, on the device by encrypting it before storing it. However, it can still be accessed if the device is compromised.
-NDK (Native Development Kit): Stores sensitive data in native C++ code, making it more difficult to reverse-engineer. It offers an added layer of security but is not entirely foolproof against skilled attackers.
+• **Encrypted SharedPreferences:** Securely stores sensitive data, such as API keys, on the device by encrypting it before storing it. However, it can still be accessed if the device is compromised.
+• **NDK (Native Development Kit):** Stores sensitive data in native C++ code, making it more difficult to reverse-engineer. It offers an added layer of security but is not entirely foolproof against skilled attackers.
 
-# Supported Android Version
+# Supported Android Version ℹ
 Android 9 (Api 28) and above
+
+# Future Enhancements 🚀
+Implement pagination for popular movie lists and search results.
+Implement dark mode for a better user experience.
 
 # Screen Shots
 <p align="center">

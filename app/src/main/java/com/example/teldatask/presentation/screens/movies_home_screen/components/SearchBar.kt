@@ -32,7 +32,7 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .padding(top = 16.dp),
+            .padding(top = 8.dp),
         maxLines = 1,
         singleLine = true,
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },

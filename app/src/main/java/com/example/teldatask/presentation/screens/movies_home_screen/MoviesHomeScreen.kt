@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,9 +35,15 @@ fun MoviesHomeScreen(
     val moviesHomeViewModel: MoviesHomeViewModel = hiltViewModel()
     val moviesHomeUiState by moviesHomeViewModel.moviesHomeUiState.collectAsStateWithLifecycle()
     val searchQuery by moviesHomeViewModel.searchQuery.collectAsStateWithLifecycle()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
     MoviesHomeContent(
         moviesHomeUiState = moviesHomeUiState,
-        onMovieClick = onMovieClick,
+        onMovieClick = {
+            onMovieClick(it)
+            moviesHomeViewModel.resetSearchQuery()
+            keyboardController?.hide()
+        },
         searchQuery = searchQuery,
         onQueryChanged = { query ->
             moviesHomeViewModel.onSearchQueryChanged(query)

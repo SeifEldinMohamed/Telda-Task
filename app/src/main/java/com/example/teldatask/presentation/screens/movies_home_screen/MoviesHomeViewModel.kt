@@ -9,12 +9,14 @@ import com.example.teldatask.domain.usecase.FetchPopularMovieListUseCase
 import com.example.teldatask.domain.usecase.SearchMoviesUseCase
 import com.example.teldatask.presentation.mapper.toCustomApiExceptionUiModel
 import com.example.teldatask.presentation.mapper.toCustomDatabaseExceptionUiModel
+import com.example.teldatask.presentation.model.CustomApiExceptionUiModel
 import com.example.teldatask.presentation.screens.movies_home_screen.model.MovieUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -45,7 +47,7 @@ class MoviesHomeViewModel @Inject constructor(
         _moviesHomeUiState.value = MoviesHomeUiState.Loading(isLoading = true)
         viewModelScope.launch(dispatcher.io) {
             try {
-                fetchPopularMovieListUseCase().collect{ popularMovies ->
+                fetchPopularMovieListUseCase().collect { popularMovies ->
                     val popularMoviesList = popularMovies.map { it.toMovieUIModel() }
                     _moviesHomeUiState.value = MoviesHomeUiState.PopularMoviesList(
                         popularMoviesList = popularMoviesList
@@ -54,16 +56,7 @@ class MoviesHomeViewModel @Inject constructor(
                 }
 
             } catch (e: Exception) {
-                when (val customException = e as CustomExceptionDomainModel) {
-                    is CustomExceptionDomainModel.Api -> {
-                        val apiExceptionUiModel = customException.apiException.toCustomApiExceptionUiModel()
-                        _moviesHomeUiState.value = MoviesHomeUiState.ApiError(apiExceptionUiModel)
-                    }
-                    is CustomExceptionDomainModel.Database -> {
-                        val databaseExceptionUiModel = customException.databaseException.toCustomDatabaseExceptionUiModel()
-                        _moviesHomeUiState.value = MoviesHomeUiState.DatabaseError(databaseExceptionUiModel)
-                    }
-                }
+                handleCustomException(e)
             }
         }
     }
@@ -76,24 +69,55 @@ class MoviesHomeViewModel @Inject constructor(
     private fun observeSearchQuery() {
         viewModelScope.launch(dispatcher.io) {
             _searchQuery
-                .debounce(500) // Waits for 500 ms of inactivity
-                .distinctUntilChanged() // Ignore duplicate queries
+                .debounce(500)
+                .distinctUntilChanged()
                 .collect { query ->
                     if (query.isEmpty()) {
                         _moviesHomeUiState.value =
                             MoviesHomeUiState.PopularMoviesList(popularMoviesList = originalPopularMoviesList)
                     } else {
-                        val searchedMovies = searchMoviesUseCase(query = query)
-                        if (searchedMovies.isEmpty()){
-                            _moviesHomeUiState.value = MoviesHomeUiState.EmptyState
-                        }
-                        else {
-                            _moviesHomeUiState.value = MoviesHomeUiState.SearchedMoviesList(
-                                searchedMoviesList = searchedMovies.map { it.toMovieUIModel() }
-                            )
-                        }
+                        searchMoviesUseCase(query = query)
+                            .catch {
+                                handleCustomException(it)
+                            }
+                            .collect { searchedMovies ->
+                                if (searchedMovies.isEmpty()) {
+                                    _moviesHomeUiState.value = MoviesHomeUiState.EmptyState
+                                } else {
+                                    _moviesHomeUiState.value = MoviesHomeUiState.SearchedMoviesList(
+                                        searchedMoviesList = searchedMovies.map { it.toMovieUIModel() }
+                                    )
+                                }
+                            }
                     }
                 }
         }
     }
+
+    private fun handleCustomException(exception: Throwable) {
+        when (val customException = exception as? CustomExceptionDomainModel) {
+            is CustomExceptionDomainModel.Api -> {
+                val apiExceptionUiModel =
+                    customException.apiException.toCustomApiExceptionUiModel()
+                _moviesHomeUiState.value = MoviesHomeUiState.ApiError(apiExceptionUiModel)
+            }
+
+            is CustomExceptionDomainModel.Database -> {
+                val databaseExceptionUiModel =
+                    customException.databaseException.toCustomDatabaseExceptionUiModel()
+                _moviesHomeUiState.value = MoviesHomeUiState.DatabaseError(databaseExceptionUiModel)
+            }
+
+            else -> {
+                _moviesHomeUiState.value = MoviesHomeUiState.ApiError(
+                    customApiErrorExceptionUiModel = CustomApiExceptionUiModel.Unknown
+                )
+            }
+        }
+    }
+
+    fun resetSearchQuery() {
+        _searchQuery.value = ""
+    }
 }
+

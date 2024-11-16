@@ -1,5 +1,6 @@
 package com.example.teldatask.di
 
+import com.example.teldatask.data.data_sources.local.MoviesLocalDataSource
 import com.example.teldatask.data.data_sources.remote.MoviesRemoteDataSource
 import com.example.teldatask.data.repository.MovieDetailsRepositoryImpl
 import com.example.teldatask.data.repository.MoviesRepositoryImpl
@@ -17,16 +18,18 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideMoviesRepositoryImp(
-        moviesRemoteDataSource: MoviesRemoteDataSource
+        moviesRemoteDataSource: MoviesRemoteDataSource,
+        moviesLocalDataSource: MoviesLocalDataSource
     ): MoviesRepository {
-        return MoviesRepositoryImpl(moviesRemoteDataSource)
+        return MoviesRepositoryImpl(moviesRemoteDataSource, moviesLocalDataSource)
     }
 
     @Provides
     @Singleton
     fun provideMovieDetailsRepositoryImp(
-        moviesRemoteDataSource: MoviesRemoteDataSource
+        moviesRemoteDataSource: MoviesRemoteDataSource,
+        moviesLocalDataSource: MoviesLocalDataSource
     ): MovieDetailsRepository {
-        return MovieDetailsRepositoryImpl(moviesRemoteDataSource)
+        return MovieDetailsRepositoryImpl(moviesRemoteDataSource, moviesLocalDataSource)
     }
 }

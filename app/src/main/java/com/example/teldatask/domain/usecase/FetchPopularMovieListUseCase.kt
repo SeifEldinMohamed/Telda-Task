@@ -8,5 +8,5 @@ import javax.inject.Inject
 class FetchPopularMovieListUseCase @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) {
-    suspend operator fun invoke(): Flow<List<MovieDomainModel>> = moviesRepository.fetchPopularMovies()
+    operator fun invoke(): Flow<List<MovieDomainModel>> = moviesRepository.fetchPopularMovies()
 }

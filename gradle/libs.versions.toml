@@ -25,7 +25,6 @@ okkhttp3 = "5.0.0-alpha.11"
 gson = "2.10.1"
 chucker = "4.0.0"
 room = "2.6.1"
-paging = "3.3.4"
 
 
 [libraries]
@@ -69,9 +68,6 @@ gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", ve
 chucker = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
 room = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-
-paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

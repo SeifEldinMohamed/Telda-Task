@@ -73,7 +73,7 @@ private fun movieShimmerItem(brush: Brush) {
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .padding(bottom = 16.dp, top = 8.dp)
+            .padding(bottom = 8.dp, top = 8.dp)
             .fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface

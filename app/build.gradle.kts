@@ -98,10 +98,6 @@ dependencies {
     // chucker
     debugImplementation(libs.chucker)
 
-    // paging
-    implementation(libs.paging.runtime)
-    implementation(libs.paging.compose)
-
     // room
     implementation(libs.room)
     ksp(libs.room.compiler)

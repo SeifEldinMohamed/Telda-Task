@@ -1,6 +1,5 @@
 package com.example.teldatask.presentation.screens.movie_details_screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -64,10 +63,12 @@ fun MovieDetailsScreen(
     LaunchedEffect(key1 = Unit) {
         movieDetailsViewModel.requestMovieDetailsFirstSection(movieId)
         movieDetailsViewModel.requestSimilarMoviesList(movieId)
+        movieDetailsViewModel.checkIfFavorite(movieId)
     }
     val movieDetailsFirstSectionUiState by movieDetailsViewModel.movieDetailsFirstSectionUiState.collectAsStateWithLifecycle()
     val similarMoviesUiState by movieDetailsViewModel.similarMoviesUiState.collectAsStateWithLifecycle()
     val creditsUiState by movieDetailsViewModel.creditsUiState.collectAsStateWithLifecycle()
+    val isFavourite by movieDetailsViewModel.isFavourite.collectAsStateWithLifecycle()
 
     MovieDetailsContent(
         movieDetailsUiState = movieDetailsFirstSectionUiState,
@@ -77,9 +78,9 @@ fun MovieDetailsScreen(
             movieDetailsViewModel.requestMovieDetailsFirstSection(movieId)
         },
         onBackArrowPressed = onBackArrowPressed,
-        makeFavoriteMovie = false,
-        onFavouriteButtonClicked = { makeFavourite, movieDetailsUiModel ->
-
+        isFavoriteMovie = isFavourite,
+        onFavouriteButtonClicked = { movieDetailsUiModel ->
+            movieDetailsViewModel.toggleFavorite(movieDetailsUiModel.copy(isFavourite = isFavourite))
         },
         onRequestTopCredits = {
             movieDetailsViewModel.requestTopCastForMovies(movieIds = it)
@@ -93,9 +94,9 @@ fun MovieDetailsContent(
     similarMoviesUiState: SimilarMoviesUiState,
     creditsUiState: CreditsUiState,
     onBackArrowPressed: () -> Unit,
-    onFavouriteButtonClicked: (isFavourite: Boolean, movieDetailsUiModel: MovieDetailsUiModel) -> Unit,
+    onFavouriteButtonClicked: (movieDetailsUiModel: MovieDetailsUiModel) -> Unit,
     onRefreshClicked: () -> Unit,
-    makeFavoriteMovie: Boolean,
+    isFavoriteMovie: Boolean,
     onRequestTopCredits: (ids: List<Int>) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -177,10 +178,9 @@ fun MovieDetailsContent(
                             .padding(16.dp)
                             .align(Alignment.TopCenter)
                             .fillMaxWidth(),
-                        isLiked = makeFavoriteMovie,
+                        isLiked = isFavoriteMovie,
                         onFavouriteButtonClicked = {
-                            Log.d("favourite", "in onFavouriteButtonClicked $it")
-                            onFavouriteButtonClicked(it, movieDetailsUiModel)
+                            onFavouriteButtonClicked( movieDetailsUiModel)
                         },
                         onBackArrowPressed = onBackArrowPressed
                     )
@@ -338,9 +338,9 @@ fun FilmDetailsScreenPreview() {
             similarMoviesUiState = fakeSimilarMoviesUiState,
             creditsUiState = fakeCreditsUiState,
             onBackArrowPressed = {},
-            onFavouriteButtonClicked = { _, _ -> },
+            onFavouriteButtonClicked = { _ -> },
             {},
-            makeFavoriteMovie = false,
+            isFavoriteMovie = false,
             onRequestTopCredits = {}
         )
     }
@@ -355,9 +355,9 @@ fun FilmDetailsScreenLoadingPreview() {
             similarMoviesUiState = fakeSimilarMoviesUiStateLoading,
             creditsUiState = fakeCreditsUiStateLoading,
             onBackArrowPressed = {},
-            onFavouriteButtonClicked = { _, _ -> },
+            onFavouriteButtonClicked = { _ -> },
             {},
-            makeFavoriteMovie = false,
+            isFavoriteMovie = false,
             onRequestTopCredits = {}
         )
     }
@@ -372,9 +372,9 @@ fun FilmDetailsScreenErrorPreview() {
             similarMoviesUiState = fakeSimilarMoviesUiStateError,
             creditsUiState = fakeCreditsUiStateError,
             onBackArrowPressed = {},
-            onFavouriteButtonClicked = { _, _ -> },
+            onFavouriteButtonClicked = { _ -> },
             {},
-            makeFavoriteMovie = false,
+            isFavoriteMovie = false,
             onRequestTopCredits = {}
         )
     }

@@ -16,5 +16,8 @@ class Constants {
         const val MOVIE_CREDITS_ENDPOINT = "movie/{$MOVIE_ID_KEY}/credits"
         const val LANGUAGE_KEY = "language"
         const val QUERY_KEY = "query"
+
+        const val DATABASE_NAME = "favorites_database"
+        const val FAVOURITE_MOVIE_ENTITY = "favorites_entity"
     }
 }

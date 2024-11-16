@@ -1,7 +1,5 @@
 package com.example.teldatask.domain.usecase
 
-import com.example.teldatask.domain.model.MovieDomainModel
-import com.example.teldatask.domain.model.details.MovieDetailsDomainModel
 import com.example.teldatask.domain.repository.MovieDetailsRepository
 import com.example.teldatask.presentation.screens.movie_details_screen.model.MovieDetailsUiModel
 import javax.inject.Inject

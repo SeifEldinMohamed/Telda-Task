@@ -22,7 +22,7 @@ import com.example.teldatask.presentation.ui.theme.TeldaTaskTheme
 fun MovieDetailsAppBar(
     modifier: Modifier = Modifier,
     isLiked: Boolean,
-    onFavouriteButtonClicked: (makeFavouriteMovie: Boolean) -> Unit,
+    onFavouriteButtonClicked: () -> Unit,
     onBackArrowPressed: () -> Unit
 ) {
     Row(
@@ -45,12 +45,8 @@ fun MovieDetailsAppBar(
 
         CircleButton(
             onClick = {
-                if (isLiked) {
-                    onFavouriteButtonClicked(false)
+                onFavouriteButtonClicked()
 
-                } else {
-                    onFavouriteButtonClicked(true)
-                }
             },
             containerColor = if (isLiked) Red.copy(alpha = 0.5f) else LightGray.copy(alpha = 0.5f)
         ) {

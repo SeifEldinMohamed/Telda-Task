@@ -12,5 +12,5 @@ data class MovieDetailsUiModel(
     val releaseDate: String,
     val revenue: String,
     val status: String,
-    val isFavourite:Boolean
+    val isFavourite: Boolean
 )

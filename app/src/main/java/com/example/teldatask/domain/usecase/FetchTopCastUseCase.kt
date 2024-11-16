@@ -1,6 +1,6 @@
 package com.example.teldatask.domain.usecase
 
-import com.example.teldatask.data.mapper.toCustomApiExceptionDomainModel
+import com.example.teldatask.data.mapper.toCustomExceptionDomainModel
 import com.example.teldatask.domain.model.details.CastDomainModel
 import com.example.teldatask.domain.model.details.CreditsDomainModel
 import com.example.teldatask.domain.model.details.CrewDomainModel
@@ -23,7 +23,7 @@ class FetchTopCastUseCase @Inject constructor(
                 directors.addAll(credits.crew.filter { it.knownForDepartment == Departments.Directing.toString() })
 
             } catch (e: Exception) {
-                throw e.toCustomApiExceptionDomainModel()
+                throw e.toCustomExceptionDomainModel()
             }
         }
 

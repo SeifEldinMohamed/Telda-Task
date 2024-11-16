@@ -7,5 +7,6 @@ data class MovieDomainModel(
     val releaseDate: String,
     val voteAverage: Double,
     val overview: String,
-    val originalLanguage: String
+    val originalLanguage: String,
+    val isFavourite:Boolean
 )

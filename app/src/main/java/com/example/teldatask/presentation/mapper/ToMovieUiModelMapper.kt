@@ -12,6 +12,6 @@ fun MovieDomainModel.toMovieUIModel(): MovieUiModel {
         voteAverage = this.voteAverage,
         overview = this.overview,
         originalLanguage = this.originalLanguage,
-        isFavourite = false
+        isFavourite = this.isFavourite
     )
 }

@@ -20,7 +20,6 @@ fun Throwable.toCustomDatabaseExceptionDomainModel(): CustomDatabaseExceptionDom
         is SQLiteReadOnlyDatabaseException -> CustomDatabaseExceptionDomainModel.DatabaseReadOnlyExceptionDomainModel
         is SQLiteDatatypeMismatchException -> CustomDatabaseExceptionDomainModel.DatabaseDatatypeMismatchExceptionDomainModel
         is SQLiteMisuseException -> CustomDatabaseExceptionDomainModel.DatabaseMisuseExceptionDomainModel
-
         else -> CustomDatabaseExceptionDomainModel.UnknownExceptionDomainModel
     }
 }

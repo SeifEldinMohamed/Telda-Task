@@ -14,6 +14,6 @@ fun MovieDetailsDomainModel.toMovieDetailsUIModel(): MovieDetailsUiModel {
         status = this.status,
         details = this.details,
         categories = this.categories,
-        isFavourite = isFavourite
+        isFavourite = this.isFavourite
     )
 }

@@ -12,6 +12,7 @@ fun MovieDataModel.toMovieDomainModel(): MovieDomainModel {
         releaseDate = this.releaseDate,
         voteAverage = this.voteAverage,
         overview = this.overview,
-        originalLanguage = this.originalLanguage
+        originalLanguage = this.originalLanguage,
+        isFavourite = false
     )
 }

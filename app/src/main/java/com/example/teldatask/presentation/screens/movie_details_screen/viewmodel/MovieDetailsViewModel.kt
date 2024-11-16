@@ -2,14 +2,17 @@ package com.example.teldatask.presentation.screens.movie_details_screen.viewmode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.teldatask.domain.model.CustomApiExceptionDomainModel
+import com.example.teldatask.domain.model.CustomExceptionDomainModel
+import com.example.teldatask.domain.usecase.CheckFavouriteMovieUseCase
 import com.example.teldatask.domain.usecase.FetchMovieFirstSectionDetailsUseCase
 import com.example.teldatask.domain.usecase.FetchSimilarMoviesListUseCase
 import com.example.teldatask.domain.usecase.FetchTopCastUseCase
+import com.example.teldatask.domain.usecase.ToggleFavouriteStatusUseCase
 import com.example.teldatask.presentation.mapper.toCreditsUiModel
 import com.example.teldatask.presentation.mapper.toCustomApiExceptionUiModel
 import com.example.teldatask.presentation.mapper.toMovieDetailsUIModel
 import com.example.teldatask.presentation.mapper.toMovieUIModel
+import com.example.teldatask.presentation.screens.movie_details_screen.model.MovieDetailsUiModel
 import com.example.teldatask.presentation.screens.movie_details_screen.ui_state.CreditsUiState
 import com.example.teldatask.presentation.screens.movie_details_screen.ui_state.MovieDetailsFirstSectionUiState
 import com.example.teldatask.presentation.screens.movie_details_screen.ui_state.SimilarMoviesUiState
@@ -27,6 +30,8 @@ class MovieDetailsViewModel @Inject constructor(
     private val fetchMovieDetailsFirstSectionUseCase: FetchMovieFirstSectionDetailsUseCase,
     private val fetchSimilarMoviesListUseCase: FetchSimilarMoviesListUseCase,
     private val fetchTopCastUseCase: FetchTopCastUseCase,
+    private val toggleFavouriteStatusUseCase: ToggleFavouriteStatusUseCase,
+    private val checkFavouriteMovieUseCase: CheckFavouriteMovieUseCase,
     private val dispatcher: DispatcherProvider
 ) : ViewModel() {
 
@@ -41,6 +46,8 @@ class MovieDetailsViewModel @Inject constructor(
     private val _creditsUiState = MutableStateFlow<CreditsUiState>(CreditsUiState.Loading(isLoading = false))
     val creditsUiState: StateFlow<CreditsUiState> = _creditsUiState.asStateFlow()
 
+    private val _isFavourite = MutableStateFlow(false)
+    val isFavourite: StateFlow<Boolean> = _isFavourite.asStateFlow()
 
     fun requestMovieDetailsFirstSection(movieId: Int) {
         _movieDetailsFirstSectionUiState.value = MovieDetailsFirstSectionUiState.Loading(isLoading = true)
@@ -54,7 +61,7 @@ class MovieDetailsViewModel @Inject constructor(
 
             } catch (e: Exception) {
                 _movieDetailsFirstSectionUiState.value = MovieDetailsFirstSectionUiState.Error(
-                    customApiErrorExceptionUiModel = (e as CustomApiExceptionDomainModel).toCustomApiExceptionUiModel()
+                    customApiErrorExceptionUiModel = (e as CustomExceptionDomainModel.Api).apiException.toCustomApiExceptionUiModel()
                 )
             }
         }
@@ -72,7 +79,7 @@ class MovieDetailsViewModel @Inject constructor(
 
             } catch (e: Exception) {
                 _similarMoviesUiState.value = SimilarMoviesUiState.Error(
-                    customApiErrorExceptionUiModel = (e as CustomApiExceptionDomainModel).toCustomApiExceptionUiModel()
+                    customApiErrorExceptionUiModel = (e as CustomExceptionDomainModel.Api).apiException.toCustomApiExceptionUiModel()
                 )
             }
         }
@@ -86,9 +93,22 @@ class MovieDetailsViewModel @Inject constructor(
                 _creditsUiState.value =  CreditsUiState.Credits(creditsUiModel = creditsDirection.toCreditsUiModel())
             } catch (e: Exception){
                 _creditsUiState.value = CreditsUiState.Error(
-                    customApiErrorExceptionUiModel = (e as CustomApiExceptionDomainModel).toCustomApiExceptionUiModel()
+                    customApiErrorExceptionUiModel = (e as CustomExceptionDomainModel.Api).apiException.toCustomApiExceptionUiModel()
                 )
             }
+        }
+    }
+
+    fun checkIfFavorite(movieId: Int) {
+        viewModelScope.launch {
+            _isFavourite.value = checkFavouriteMovieUseCase(movieId)
+        }
+    }
+
+    fun toggleFavorite(movie: MovieDetailsUiModel) {
+        viewModelScope.launch {
+            toggleFavouriteStatusUseCase(movie)
+            _isFavourite.value = !_isFavourite.value
         }
     }
 }

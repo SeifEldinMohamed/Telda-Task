@@ -4,10 +4,10 @@ import android.util.Log
 import com.example.teldatask.data.data_sources.remote.retrofit.api.MovieDetailsApi
 import com.example.teldatask.data.data_sources.remote.retrofit.datamodel.movies_list.MovieDataModel
 import com.example.teldatask.data.data_sources.remote.retrofit.datamodel.movies_list.MoviesResponse
-import com.example.teldatask.data.mapper.toCustomApiExceptionDomainModel
 import com.example.teldatask.data.data_sources.remote.retrofit.api.MoviesApi
 import com.example.teldatask.data.data_sources.remote.retrofit.datamodel.movie_details.MovieDetailsResponse
 import com.example.teldatask.data.data_sources.remote.retrofit.datamodel.movie_details.credits.CreditsResponse
+import com.example.teldatask.data.mapper.toCustomExceptionDomainModel
 import javax.inject.Inject
 
 class MoviesRemoteDataSource @Inject constructor(
@@ -20,7 +20,7 @@ class MoviesRemoteDataSource @Inject constructor(
             val moviesResponse = moviesApi.fetchPopularMovies().body() as MoviesResponse
             moviesResponse.movieListDataModel
         } catch (e: Exception) {
-            throw e.toCustomApiExceptionDomainModel()
+            throw e.toCustomExceptionDomainModel()
         }
     }
 
@@ -29,7 +29,7 @@ class MoviesRemoteDataSource @Inject constructor(
             val moviesResponse = moviesApi.searchMovies(query = query).body() as MoviesResponse
             moviesResponse.movieListDataModel
         } catch (e: Exception) {
-            throw e.toCustomApiExceptionDomainModel()
+            throw e.toCustomExceptionDomainModel()
         }
     }
 
@@ -37,7 +37,7 @@ class MoviesRemoteDataSource @Inject constructor(
         return try {
             movieDetailsApi.fetchMovieDetails(movieId = movieId).body() as MovieDetailsResponse
         } catch (e:Exception) {
-            throw e.toCustomApiExceptionDomainModel()
+            throw e.toCustomExceptionDomainModel()
         }
     }
 
@@ -46,7 +46,7 @@ class MoviesRemoteDataSource @Inject constructor(
             val similarMoviesResponse = movieDetailsApi.fetchSimilarMovies(movieId = movieId).body() as MoviesResponse
             similarMoviesResponse.movieListDataModel
         } catch (e:Exception) {
-            throw e.toCustomApiExceptionDomainModel()
+            throw e.toCustomExceptionDomainModel()
         }
     }
 
@@ -57,7 +57,7 @@ class MoviesRemoteDataSource @Inject constructor(
             result
         } catch (e:Exception) {
             Log.d("Credits", "insideMoviesRemoteDataSource Error = $e")
-            throw e.toCustomApiExceptionDomainModel()
+            throw e.toCustomExceptionDomainModel()
         }
     }
 }

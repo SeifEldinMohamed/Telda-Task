@@ -1,5 +1,6 @@
 package com.example.teldatask.presentation.screens.movies_home_screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -25,6 +27,9 @@ import com.example.teldatask.presentation.screens.movies_home_screen.components.
 import com.example.teldatask.presentation.screens.movies_home_screen.components.SearchBar
 import com.example.teldatask.presentation.screens.movies_home_screen.components.shimmer_loading.AnimateShimmerMoviesList
 import com.example.teldatask.presentation.screens.movies_home_screen.preview_data.fakeMoviesHomeUiState
+import com.example.teldatask.presentation.screens.movies_home_screen.preview_data.fakeMoviesHomeUiStateEmptyState
+import com.example.teldatask.presentation.screens.movies_home_screen.preview_data.fakeMoviesHomeUiStateError
+import com.example.teldatask.presentation.screens.movies_home_screen.preview_data.fakeMoviesHomeUiStateLoading
 import com.example.teldatask.presentation.ui.theme.TeldaTaskTheme
 
 
@@ -33,6 +38,10 @@ fun MoviesHomeScreen(
     onMovieClick: (id: Int) -> Unit,
 ) {
     val moviesHomeViewModel: MoviesHomeViewModel = hiltViewModel()
+    LaunchedEffect(Unit) {
+        moviesHomeViewModel.requestPopularMovies()
+        moviesHomeViewModel.observeSearchQuery()
+    }
     val moviesHomeUiState by moviesHomeViewModel.moviesHomeUiState.collectAsStateWithLifecycle()
     val searchQuery by moviesHomeViewModel.searchQuery.collectAsStateWithLifecycle()
 
@@ -143,3 +152,48 @@ private fun PreviewMoviesHomeContent() {
         )
     }
 }
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+private fun PreviewMoviesHomeError() {
+    TeldaTaskTheme {
+        MoviesHomeContent(
+            moviesHomeUiState = fakeMoviesHomeUiStateError,
+            onMovieClick = {},
+            searchQuery = "",
+            onQueryChanged = {},
+            onRefreshButtonClicked = {}
+        )
+    }
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+private fun PreviewMoviesHomeLoading() {
+    TeldaTaskTheme {
+        MoviesHomeContent(
+            moviesHomeUiState = fakeMoviesHomeUiStateLoading,
+            onMovieClick = {},
+            searchQuery = "",
+            onQueryChanged = {},
+            onRefreshButtonClicked = {}
+        )
+    }
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+private fun PreviewMoviesHomeEmptyState() {
+    TeldaTaskTheme {
+        MoviesHomeContent(
+            moviesHomeUiState = fakeMoviesHomeUiStateEmptyState,
+            onMovieClick = {},
+            searchQuery = "",
+            onQueryChanged = {},
+            onRefreshButtonClicked = {}
+        )
+    }
+}
+
+
+

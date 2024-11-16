@@ -1,5 +1,7 @@
 package com.example.teldatask.presentation.screens.movies_home_screen.preview_data
 
+import com.example.teldatask.domain.model.CustomApiExceptionDomainModel
+import com.example.teldatask.presentation.model.CustomApiExceptionUiModel
 import com.example.teldatask.presentation.screens.movies_home_screen.MoviesHomeUiState
 import com.example.teldatask.presentation.screens.movies_home_screen.model.MovieUiModel
 
@@ -17,7 +19,7 @@ val fakeMovieUiModel =
     )
 
 
-val fakePopularMovies = listOf(
+val fakePopularMovieListUiModel = listOf(
     MovieUiModel(
         id = 1,
         title = "The Shawshank Redemption",
@@ -40,4 +42,7 @@ val fakePopularMovies = listOf(
     ),
 )
 
-val fakeMoviesHomeUiState = MoviesHomeUiState.PopularMoviesList(popularMoviesList = fakePopularMovies)
+val fakeMoviesHomeUiState = MoviesHomeUiState.PopularMoviesList(popularMoviesList = fakePopularMovieListUiModel)
+val fakeMoviesHomeUiStateError = MoviesHomeUiState.ApiError(customApiErrorExceptionUiModel = CustomApiExceptionUiModel.Network)
+val fakeMoviesHomeUiStateLoading = MoviesHomeUiState.Loading(isLoading = true)
+val fakeMoviesHomeUiStateEmptyState = MoviesHomeUiState.EmptyState

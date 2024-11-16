@@ -13,6 +13,7 @@ import com.example.teldatask.presentation.model.CustomApiExceptionUiModel
 import com.example.teldatask.presentation.screens.movies_home_screen.model.MovieUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,19 +34,15 @@ class MoviesHomeViewModel @Inject constructor(
         MutableStateFlow(MoviesHomeUiState.Loading(isLoading = false))
     val moviesHomeUiState: StateFlow<MoviesHomeUiState> = _moviesHomeUiState.asStateFlow()
 
-    private var originalPopularMoviesList: List<MovieUiModel> = emptyList()
+    var originalPopularMoviesList: List<MovieUiModel> = emptyList()
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    init {
-        requestPopularMovies()
-        observeSearchQuery()
-    }
-
-    private fun requestPopularMovies() {
+     fun requestPopularMovies() {
         _moviesHomeUiState.value = MoviesHomeUiState.Loading(isLoading = true)
         viewModelScope.launch(dispatcher.io) {
+            delay(1000)
             try {
                 fetchPopularMovieListUseCase().collect { popularMovies ->
                     val popularMoviesList = popularMovies.map { it.toMovieUIModel() }
@@ -66,7 +63,7 @@ class MoviesHomeViewModel @Inject constructor(
     }
 
     @OptIn(FlowPreview::class)
-    private fun observeSearchQuery() {
+    fun observeSearchQuery() {
         viewModelScope.launch(dispatcher.io) {
             _searchQuery
                 .debounce(500)

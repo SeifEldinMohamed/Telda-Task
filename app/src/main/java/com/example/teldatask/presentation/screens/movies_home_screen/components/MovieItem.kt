@@ -104,7 +104,7 @@ fun MovieItem(
                 )
 
                 Text(
-                    modifier = Modifier.padding(vertical = 8.dp),
+                    modifier = Modifier.padding(top = 8.dp),
                     text = stringResource(R.string.release_date_s, movieUiModel.releaseDate),
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,

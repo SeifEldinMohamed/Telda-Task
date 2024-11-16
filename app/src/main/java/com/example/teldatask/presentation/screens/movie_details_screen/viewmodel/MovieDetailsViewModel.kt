@@ -87,7 +87,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun requestTopCastForMovies(movieIds: List<Int>) {
         _creditsUiState.value = CreditsUiState.Loading(isLoading = true)
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher.io) {
             try {
                 val creditsDirection = fetchTopCastUseCase(movieIds)
                 _creditsUiState.value =  CreditsUiState.Credits(creditsUiModel = creditsDirection.toCreditsUiModel())
@@ -100,13 +100,13 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun checkIfFavorite(movieId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher.io) {
             _isFavourite.value = checkFavouriteMovieUseCase(movieId)
         }
     }
 
     fun toggleFavorite(movie: MovieDetailsUiModel) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher.io) {
             toggleFavouriteStatusUseCase(movie)
             _isFavourite.value = !_isFavourite.value
         }

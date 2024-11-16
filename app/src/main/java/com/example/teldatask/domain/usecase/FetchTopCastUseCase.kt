@@ -23,7 +23,7 @@ class FetchTopCastUseCase @Inject constructor(
                 directors.addAll(credits.crew.filter { it.knownForDepartment == Departments.Directing.toString() })
 
             } catch (e: Exception) {
-                throw e.toCustomExceptionDomainModel()
+                throw e
             }
         }
 

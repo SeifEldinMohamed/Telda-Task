@@ -37,11 +37,13 @@ The app is built using modern Android development tools and practices, following
 • Mockk<br />
 • Turbine<br />
 
-# Securing Api Key
+# Securing Api Key 👮🏻
 • To secure the API key in this project, we used the BuildConfigField approach, which injects the API key during the build process. The key is stored securely in the local.properties file, which is not tracked by version control, and is injected into the app at build time. This avoids hardcoding the key directly into the source code, making it more secure.
 
 Additional Security Options:
+
 • **Encrypted SharedPreferences:** Securely stores sensitive data, such as API keys, on the device by encrypting it before storing it. However, it can still be accessed if the device is compromised.
+
 • **NDK (Native Development Kit):** Stores sensitive data in native C++ code, making it more difficult to reverse-engineer. It offers an added layer of security but is not entirely foolproof against skilled attackers.
 
 # Supported Android Version ℹ
@@ -51,10 +53,21 @@ Additional Security Options:
 • Implement pagination for popular movie lists and search results.
 • Implement dark mode for a better user experience.
 
-# Screen Shots
-<p align="center">
-<img src = "screenshots/movies_list_shimmer.png"  height="400" width = "200">
-<img src = "screenshots/movies_list.png" height="400" width = "200">
-<img src = "screenshots/error_handling.png" height="400" width = "200">
+# Screen Shots 🖼
+<p align="top">
+<img src = "screenshots/home_shimmer.jpg"  height="400" width = "200">
+<img src = "screenshots/home.jpg" height="400" width = "200">
+<img src = "screenshots/home_error.jpg" height="400" width = "200">
+<br />
+<br />
+<img src = "screenshots/search_keyboard.jpg" height="400" width = "200">
+<img src = "screenshots/search_no_keyboard.jpg" height="400" width = "200">
+<img src = "screenshots/home_empty.jpg" height="400" width = "200">
+<br />
+<br />
+<img src = "screenshots/details_shimmer.jpg" height="400" width = "200">
+<img src = "screenshots/details.jpg" height="800" width = "200">
+<img src = "screenshots/details_fav.jpg" height="800" width = "200">
+<img src = "screenshots/home_fav.jpg" height="400" width = "200">
 <br />
 <br />

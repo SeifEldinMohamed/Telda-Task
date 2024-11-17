@@ -49,8 +49,30 @@ Additional Security Options:
 # Supported Android Version ℹ
 • Android 9 (Api 28) and above
 
+# Test Coverage 🧪
+
+This project includes comprehensive **unit tests** and **UI tests** to ensure the robustness and reliability of the application:
+
+• **Unit Tests** <br />
+Implemented unit tests for almost all features and scenarios of the application.
+These tests cover core business logic, data transformations, and edge cases to ensure the app behaves as expected across different use cases.
+
+• **UI Tests** <br />
+The project also includes extensive UI test cases for the Home Screen using Jetpack Compose Testing.
+These tests validate various UI elements and interactions such as:
+
+• Display of popular movie items, including titles and posters.
+
+• Visibility of favorite icons for favorite movies.
+
+• Proper handling of different UI states like loading, error, and empty states.
+
+• Search functionality and input handling in the search bar.
+
+By covering both unit and UI testing, we aim to provide a reliable user experience and maintain the app's quality over time.
+
 # Future Enhancements 🚀
-• Implement pagination for popular movie lists and search results.
+• Implement pagination for popular movie lists and search results. <br />
 • Implement dark mode for a better user experience.
 
 # Screen Shots 🖼
@@ -67,7 +89,7 @@ Additional Security Options:
 <br />
 <img src = "screenshots/details_shimmer.jpg" height="400" width = "200">
 <img src = "screenshots/details_screen.jpg" height="800" width = "200">
-<img src = "screenshots/details_fav.jpg" height="800" width = "200">
+<img src = "screenshots/details_favorite.jpg" height="800" width = "200">
 <img src = "screenshots/home_fav.jpg" height="400" width = "200">
 <br />
 <br />

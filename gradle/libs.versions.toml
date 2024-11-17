@@ -25,6 +25,8 @@ okkhttp3 = "5.0.0-alpha.11"
 gson = "2.10.1"
 chucker = "4.0.0"
 room = "2.6.1"
+composeTestingJunit = "1.5.0"
+composeTestingManifest = "1.5.0"
 
 
 [libraries]
@@ -42,6 +44,8 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-testing-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "composeTestingJunit" }
+compose-testing-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "composeTestingManifest" }
 
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }

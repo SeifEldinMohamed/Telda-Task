@@ -6,6 +6,13 @@
     <string name="favorite_content_description">Favorite Icon</string>
     <string name="release_date_s">Release Date: %1$s</string>
     <string name="rating">Rating: %1$s</string>
+    // movies home test tags
+    <string name="test_tag_movie_item">MovieItem_%1$s</string>
+    <string name="test_tag_favourite_icon">FavouriteIcon_%1$s</string>
+    <string name="test_tag_empty_section">EmptySection</string>
+    <string name="test_tag_shimmer_movies_list">ShimmerMoviesList</string>
+    <string name="test_tag_error_section">ErrorSection</string>
+    <string name="test_tag_searchbar_textfield">SearchBar</string>
 
     // error Section
     <string name="something_went_wrong">Something Went Wrong..</string>
@@ -24,7 +31,7 @@
     <string name="back_arrow">back arrow</string>
     <string name="search_for_a_movie_hint">Search for a movie...</string>
 
-    // details
+    // details screen
     <string name="unlike">Unlike</string>
     <string name="like">Like</string>
     <string name="colon">": "</string>
@@ -38,5 +45,6 @@
     <string name="similar_movies_actors">Similar movies actors</string>
     <string name="similar_movies_directors">Similar movies directors</string>
     <string name="usd_currency">" $"</string>
+
 
 </resources>

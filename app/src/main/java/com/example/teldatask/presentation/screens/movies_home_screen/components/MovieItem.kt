@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +43,8 @@ fun MovieItem(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .fillMaxWidth()
-            .clickable { onMovieClick(movieUiModel.id) },
+            .clickable { onMovieClick(movieUiModel.id) }
+            .testTag(stringResource(R.string.test_tag_movie_item, movieUiModel.id)),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         )
@@ -75,14 +77,25 @@ fun MovieItem(
                         style = MaterialTheme.typography.titleMedium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(7f)
+                        modifier = Modifier
+                            .weight(7f)
+                            .testTag("MovieTitle_${movieUiModel.id}")
                     )
                     if (movieUiModel.isFavourite) {
                         Icon(
                             imageVector = Icons.Default.Favorite,
                             contentDescription = stringResource(R.string.favorite_content_description),
                             tint = Red,
-                            modifier = Modifier.size(24.dp).weight(1f).padding(start = 4.dp)
+                            modifier = Modifier
+                                .size(24.dp)
+                                .weight(1f)
+                                .padding(start = 4.dp)
+                                .testTag(
+                                    stringResource(
+                                        R.string.test_tag_favourite_icon,
+                                        movieUiModel.id
+                                    )
+                                )
                         )
                     }
                 }

@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
@@ -50,7 +51,7 @@ fun ErrorSection(
         Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
-            ,
+            .testTag(stringResource(R.string.test_tag_error_section)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
@@ -87,7 +88,7 @@ fun ErrorSection(
             colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.Transparent),
             border = BorderStroke(2.dp, LightGreen),
             modifier = Modifier
-                // .testTag(TAG_STRING_ERROR_RETRY_BUTTON)
+                .testTag("RetryButton")
                 .fillMaxWidth(0.8f),
             onClick = {
                 onRefreshButtonClicked()

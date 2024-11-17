@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -74,6 +75,7 @@ fun MoviesHomeContent(
         Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .testTag("MoviesHomeContent")
     ) {
         CenterAlignedAppBar(
             title = R.string.app_name,
@@ -114,6 +116,7 @@ fun MoviesHomeContent(
             is MoviesHomeUiState.SearchedMoviesList -> {
                 LazyColumn(
                     Modifier.padding(vertical = 8.dp)
+                        .testTag("SearchedMoviesList")
                 ) {
                     items(moviesHomeUiState.searchedMoviesList) { movieUiModel ->
                         MovieItem(
@@ -127,6 +130,7 @@ fun MoviesHomeContent(
             is MoviesHomeUiState.PopularMoviesList -> {
                 LazyColumn(
                     Modifier.padding(vertical = 8.dp)
+                        .testTag("PopularMoviesList")
                 ) {
                     items(moviesHomeUiState.popularMoviesList) { movieUiModel ->
                         MovieItem(

@@ -108,4 +108,8 @@ dependencies {
     implementation(libs.room)
     ksp(libs.room.compiler)
 
+    // compose testing
+    androidTestImplementation(libs.compose.testing.junit)
+    androidTestImplementation(libs.compose.testing.manifest)
+
 }

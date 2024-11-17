@@ -66,7 +66,7 @@ Additional Security Options:
 <br />
 <br />
 <img src = "screenshots/details_shimmer.jpg" height="400" width = "200">
-<img src = "screenshots/details.jpg" height="800" width = "200">
+<img src = "screenshots/details_screen.jpg" height="800" width = "200">
 <img src = "screenshots/details_fav.jpg" height="800" width = "200">
 <img src = "screenshots/home_fav.jpg" height="400" width = "200">
 <br />

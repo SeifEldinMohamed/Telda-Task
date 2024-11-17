@@ -42,8 +42,8 @@ class MoviesHomeViewModel @Inject constructor(
      fun requestPopularMovies() {
         _moviesHomeUiState.value = MoviesHomeUiState.Loading(isLoading = true)
         viewModelScope.launch(dispatcher.io) {
-            delay(1000)
             try {
+                delay(1000)
                 fetchPopularMovieListUseCase().collect { popularMovies ->
                     val popularMoviesList = popularMovies.map { it.toMovieUIModel() }
                     _moviesHomeUiState.value = MoviesHomeUiState.PopularMoviesList(

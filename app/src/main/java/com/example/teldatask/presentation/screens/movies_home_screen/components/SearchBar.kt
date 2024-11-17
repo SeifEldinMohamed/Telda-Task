@@ -13,6 +13,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.teldatask.R
@@ -32,7 +33,8 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .padding(top = 8.dp),
+            .padding(top = 8.dp)
+            .testTag(stringResource(R.string.test_tag_searchbar_textfield)),
         maxLines = 1,
         singleLine = true,
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },

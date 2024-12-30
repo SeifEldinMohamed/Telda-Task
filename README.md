@@ -1,19 +1,28 @@
 # Movies App 🎬 
 
-• Welcome to the Movie Explorer App! This is a simple yet engaging movie discovery app that utilizes The Movie Database (TMDb) API to provide movie enthusiasts with a seamless experience of searching and exploring movies, viewing detailed information, and managing a watchlist. Enjoy exploring the world of movies!
+This mobile application allows users to search for products, manage orders, and interact with categories. It features an intuitive and responsive design, ensuring smooth navigation even on varying screen sizes. The app integrates with mock APIs to fetch categories and product data, providing real-time updates. The room database stores product and category data locally, ensuring a seamless experience when searching, filtering, and managing cart items.
 
 # Features 📱 
 
-• **Search Movies:** Allows users to search for movies by title and view popular movies when the search bar is empty.
+Search Products:
 
-• **Movie List:** Displays search results or popular movies grouped by release year, showing the movie title, overview, poster, and favorite status.
+Users can search for products by name using a search bar.
+The search filters products dynamically based on the entered text, displaying matching results in real time.
+Order Management:
 
-• **Movie Details:** Provides detailed information about a selected movie, including:
-Movie title, overview, tagline, revenue, release date, status, and an option to add/remove from the favorite.
+Products can be added to the cart by tapping them directly.
+The "View Order" button at the bottom of the screen displays the total price and quantity of products in the cart.
+When the user presses the "View Order" button, the order is cleared, resetting the cart data for a fresh order.
+Cart data is saved in Room, ensuring that the products and order details are preserved even when searching, filtering, and navigating through different sections of the app.
+Working API Integration:
 
-• **Similar Movies:** Shows up to 5 similar movies to the selected movie.
+The app integrates with mock APIs (e.g., Mockaroo) to fetch categories and product data.
+API integration allows the app to display a list of categories and their respective products, which are stored in the Room for offline use.
+Design and Responsiveness:
 
-• **Top Casts:** Displays the top 5 actors and top 5 directors of similar movies, grouped by their departments and sorted by popularity.
+The app is designed to work in portrait mode only, optimizing user experience for mobile devices.
+UI elements are responsive, adjusting automatically to fit different screen sizes and resolutions, providing a consistent and visually appealing layout across various Android devices.
+
 
 
 # Technologies Used 🛠️ 
@@ -23,10 +32,9 @@ The app is built using modern Android development tools and practices, following
 • Kotlin<br />
 • Compose<br />
 • MVVM Clean Architecture<br />
-• Retrofit<br />
-• OKHTTP3<br />
+• Ktor<br />
 • Gson<br />
-• Hilt<br />
+• Koin<br />
 • Coroutines<br />
 • State Flow<br />
 • Coil<br />
@@ -59,21 +67,8 @@ These tests cover core business logic, data transformations, and edge cases to e
 
 • **UI Tests** <br />
 The project also includes extensive UI test cases for the Home Screen using Jetpack Compose Testing.
-These tests validate various UI elements and interactions such as:
-
-• Display of popular movie items, including titles and posters.
-
-• Visibility of favorite icons for favorite movies.
-
-• Proper handling of different UI states like loading, error, and empty states.
-
-• Search functionality and input handling in the search bar.
-
 By covering both unit and UI testing, we aim to provide a reliable user experience and maintain the app's quality over time.
 
-# Future Enhancements 🚀
-• Implement pagination for popular movie lists and search results. <br />
-• Implement dark mode for a better user experience.
 
 # Screen Shots 🖼
 <p align="top">

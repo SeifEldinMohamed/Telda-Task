@@ -1,4 +1,4 @@
-# Movies App 🎬 
+# Food App 🥗 
 
 This mobile application allows users to search for products, manage orders, and interact with categories. It features an intuitive and responsive design, ensuring smooth navigation even on varying screen sizes. The app integrates with mock APIs to fetch categories and product data, providing real-time updates. The room database stores product and category data locally, ensuring a seamless experience when searching, filtering, and managing cart items.
 
@@ -23,6 +23,7 @@ Design and Responsiveness:
 The app is designed to work in portrait mode only, optimizing user experience for mobile devices.
 UI elements are responsive, adjusting automatically to fit different screen sizes and resolutions, providing a consistent and visually appealing layout across various Android devices.
 
+Support Dark Theme
 
 
 # Technologies Used 🛠️ 
